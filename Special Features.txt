@@ -1,0 +1,30 @@
+# This file details some extras I've added to the podcasting project
+#
+
+#       Jason Webster
+#    ENGN 1931Z Spring 2018
+
+arxivParser.py:
+  -handles special characters in author's names which were found in the source as &$x...; which I assume
+     is some type of html encoding for unicode characters. I learned a cool feature of re.sub() where you can 
+     apply functions for the substitutions. I would certainly have skipped this if I didn't have any of these
+     special characters in my 5 articles when I started working on this - this turned out to be one of the
+     lengthiest tasks to implement for the project as I learned the hard way that you can't build an escape
+     character in Python with a text '\' and an argument no matter how tricky you think you are being.
+
+textToAudioVisual.py
+  -Formatted an audio header for each episode that announces the Title, Authors, and Abstract with pauses to
+     assist in aural digestion.
+  -Put together 5 pleasing color combos to add variety to the episode images. These are then randomized for 
+     further variety.
+  -Applied a cloud image to the word clouds and made the resulting images 1400x1400 to comply with Apple's standards.
+     I wanted a cooler shape, but the word count was too low to fill in anything more complicated.
+
+archiveFeedgen.py:
+  -The main podcast image updates each day to match the most recently made png for a little variety.
+  -Added pulished dates, audio durations, and skip days to the feed information.
+
+flask_app.py:
+  -added a crude html landing page based on a flask tutorial which incorporates some style sheets and templates.
+  -also added an error page if you request the wrong type of file (although this is not likely to ever happen)
+

@@ -1,6 +1,11 @@
+# This library parses an RSS feed from arxiv.org and returns a structured list of the five most recent articles to be used
+#  for podcast generation
+#
+#       Jason Webster
+#    ENGN 1931Z Spring 2018
+
 import feedparser
 import re
-# from bs4 import BeautifulSoup
 
 def special_repl(matchobj):
     """ For special characters in author names, replace &$x-; with  printable characters """
@@ -25,10 +30,11 @@ def parseRss(url='https://arxiv.org/rss/physics.optics'):
     #YOUR CODE HERE: programmatically producing the articleList of dictionaries described above
     d = feedparser.parse(url)
     num_entries = min(len(d['entries']),5)
-    articlesList = [{}]
+    articlesList = []
     for i in range(num_entries):
-        summary = d['entries'][i]['summary']
-        summary = re.sub('<.*>', '', summary)
+        articlesList.append({})
+        abstract = d['entries'][i]['summary']
+        abstract = re.sub('<.*>', '', abstract)
         articleId = re.findall('[0-9]+.[0-9]+', d['entries'][i]['id'])[0]
         authors = d['entries'][i]['authors'][0]['name']
         authors = re.sub('<.*?>', '', authors)
@@ -36,14 +42,9 @@ def parseRss(url='https://arxiv.org/rss/physics.optics'):
         title = re.findall('[^(]+', d['entries'][i]['title'])[0]
         title = re.sub('\$-\$', '-', title) #encountered this once
         url = d['entries'][i]['link']
-        articlesList[i]['summary'] = summary
+        articlesList[i]['abstract'] = abstract
         articlesList[i]['articleId'] = articleId
         articlesList[i]['authors'] = authors
         articlesList[i]['title'] = title
         articlesList[i]['url'] = url
-        articlesList.append({})
-    print(articlesList)
     return articlesList
-
-url = 'https://arxiv.org/rss/eess.SP'
-t = parseRss(url)
